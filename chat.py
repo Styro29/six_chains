@@ -11,14 +11,14 @@ import os
 import gemini
 from langchain_core.prompts import SystemMessagePromptTemplate, ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.messages import HumanMessage, SystemMessage
-from langchain_google_genai import ChatGoogleGenerativeAI\
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_community.document_loaders import WebBaseLoader
 
 # 대화 기록을 저장할 파일 경로
 CHAT_HISTORY = "chat_history.txt"
 
 def get_response(question, prompt):
-    # gemini.py에서 질문에 대한 응답을 가져오는 함수
+    # gemini.py에서 질문에 대한 응답을 가져오는 함수 # 나중에 gemini보고 수정하기
     return gemini.get_response(question, prompt)
 
 def load_chat_history():
@@ -32,7 +32,7 @@ def load_chat_history():
 
 def save_chat_history(chat_history):
     # 대화 기록을 파일에 저장
-    with open(CHAT_HISTORY, 'w') as file:
+    with open(CHAT_HISTORY, 'a') as file:
         file.writelines(chat_history)
 
 def main():
@@ -43,15 +43,15 @@ def main():
 
     while True:
         # 사용자 질문 입력 받기
-        user_question = input("You: ")
+        user_question = input("이어드림 스쿨에 대해 궁금한 점을 입력하세요!")
 
         # 사용자가 종료하고자 할 때까지 반복
         if user_question.lower() == 'exit':
-            print("Goodbye!")
+            print("대화를 종료합니다.")
             break
 
         # 프롬포트 설정
-        prompt = ("system", "Answer only 'yes' or 'no'. Do not add any explanation about your answer.")
+        prompt = ("system", "At first, Answer only syntax. And then add explanation.")
 
         # gemini.py를 사용하여 사용자 질문에 대한 응답 가져오기
         response = get_response(user_question, prompt)
