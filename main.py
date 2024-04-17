@@ -3,8 +3,8 @@ import crawler
 import vector_store
 import retriever
 import chat
-import sql
-import logger
+# import sql
+# import logger
 
 def main():
     # Gemini API 설정
