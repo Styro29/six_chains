@@ -15,56 +15,55 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_community.document_loaders import WebBaseLoader
 
 # 대화 기록을 저장할 파일 경로
-CHAT_HISTORY = "chat_history.txt"
 
-def get_response(question, prompt):
-    # gemini.py에서 질문에 대한 응답을 가져오는 함수 # 나중에 gemini보고 수정하기
-    return gemini.get_response(question, prompt)
+class Chat:
+    def __init__(self, chat_history_file = "chat_history.txt"):
+        self.default_prompt = []
+        self.user_input = ""
+        self.chat_history_file = chat_history_file
+        self.chat_history = self.load_chat_history()
+        
+    def load_chat_history(self):
+        # 대화 기록 파일이 있는 경우, 파일에서 읽어옴
+        if os.path.exists(self.chat_history_file): # type: ignore
+            with open(self.chat_history_file, 'r') as file:
+                chat_history = file.readlines()
+            return chat_history
+        else:
+            return []
 
-def load_chat_history():
-    # 대화 기록 파일이 있는 경우, 파일에서 읽어옴
-    if os.path.exists(CHAT_HISTORY):
-        with open(CHAT_HISTORY, 'r') as file:
-            chat_history = file.readlines()
-        return chat_history
-    else:
-        return []
+    def save_chat_history(self, model, last_qna):
+        # 대화 기록을 파일에 저장
+        with open(self.chat_history_file, 'a') as file:
+            file.writelines(str({'user' : self.user_input, 'chatbot' : model.get_response(default_prompt, user_input)}))
 
-def save_chat_history(chat_history):
-    # 대화 기록을 파일에 저장
-    with open(CHAT_HISTORY, 'a') as file:
-        file.writelines(chat_history)
 
-def main():
-    # 기존 대화 기록 불러오기
-    chat_history = load_chat_history()
+def main(model, retriever):
+    C = Chat()
 
     print("Welcome to ChatBot!")
 
     while True:
         # 사용자 질문 입력 받기
-        user_question = input("이어드림 스쿨에 대해 궁금한 점을 입력하세요!")
+        user_input = input("이어드림 스쿨에 대해 궁금한 점을 입력하세요!")
 
         # 사용자가 종료하고자 할 때까지 반복
-        if user_question.lower() == 'exit':
+        if user_input.lower() == 'exit':
             print("대화를 종료합니다.")
             break
 
         # 프롬포트 설정
-        prompt = ("system", "At first, Answer only syntax. And then add explanation.")
+        default_prompt = ("system", "At first, Answer only syntax. And then add explanation.")
 
-        # gemini.py를 사용하여 사용자 질문에 대한 응답 가져오기
-        response = get_response(user_question, prompt)
+        model.get_response(default_prompt, user_input)
+        retriever()
+
 
         # 대화 기록에 추가
-        chat_history.append(f"User: {user_question}\n")
-        chat_history.append(f"ChatBot: {response}\n")
-
-        # 대화 출력
-        print("ChatBot:", response)
+        
 
         # 대화 기록 저장
-        save_chat_history(chat_history)
+        C.save_chat_history(last_qna)
 
 if __name__ == "__main__":
     main()
