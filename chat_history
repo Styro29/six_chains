@@ -1,0 +1,28 @@
+import os
+import json
+import chat
+from gemini import AI_Model
+
+CHAT_HISTORY_FILE = "chat_history.json"
+
+class Chat_history:
+    def __init__(self, chat_history_file = CHAT_HISTORY_FILE):
+        self.chat_history_file = chat_history_file
+        self.chat_history = self.load_chat_history()
+    
+    def load_chat_history(self):
+        if os.path.exists(self.chat_history_file):
+            return json.read_json(self.chat_history_file)
+        else:
+            return []
+        # 확인할 점 : 리턴값 빈 리스트여도 괜찮은지, 데이터 실제로 저장되고 불러와지는 형태
+    
+    def save_chat_history(self, model):
+        G = AI_Model('gemini-pro', 0.7, "AIzaSyDtPYcEmBSCBmwJdiKHzcJZoLG2zL33KQE")
+        G.prepare()  
+        model = G.chat    # 위 3줄은 main부분에서 구현하는게 더 좋음.
+
+        with open(self.chat_history_file, 'a') as file:
+            data = {'user': chat.user_input, 'chatbot': model.get_response(self.user_input)}
+            json_data = json.dumps(data)
+            file.write(json_data + '\n')

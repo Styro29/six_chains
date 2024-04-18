@@ -1,43 +1,19 @@
-'''
-chat.py 구현할 기능
-1. 사용자 질문 입력
--> 사용자 질문 형태 카테고리로 제한할지?(카테고리화 한다면 벡터 스토어에 저장도 카테고리대로 저장해야 함.)
-2. prompt 설정
-3. chat history 저장(최소 5개)
--> 질문 데이터 저장 및 response : gemini.py에서 불러온 후 저장 입력 데이터와 출력 데이터 연결해서
-'''
-
-import os
-import json
-from gemini import AI_Model
-
-# 대화 기록을 저장할 파일 경로
-CHAT_HISTORY_FILE = "chat_history.json"
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 
 class Chat:
-    def __init__(self, chat_history_file = CHAT_HISTORY_FILE):
-        self.default_prompt = []
+    def __init__(self):
+        self.default_prompt = ChatPromptTemplate.from_messages(
+            [
+                ('system', "Give the answer with syntax in the first line, and then explain it.")
+                ('human', "You are a data specialist for over 20 years. \
+                 Please give advice as seniors to new employees who are thinking about their career path with data jobs. \
+                 It is especially important to present the direction of the problem")
+            ]
+        )
+
+    def chatting(self): # self를 받는게 맞는지?, MessagesPlaceholder 사용해야되는지?
         self.user_input = ""
-        self.chat_history_file = chat_history_file
-        self.chat_history = self.load_chat_history()
-
-
-    def load_chat_history(self):
-        # 대화 기록 파일이 있는 경우, 파일에서 읽어옴
-        if os.path.exists(self.chat_history_file): 
-            return json.read_json(self.chat_history_file)
-        else:
-            return []
         
-    
-
-    def save_chat_history(self, model):
-        # 대화 기록을 파일에 저장
-        with open(self.chat_history_file, 'a') as file:
-            file.writelines(str({'user' : self.user_input, 'chatbot' : model.get_response(self.user_input)}))
-
-    def main(model):
-
         print("Welcome to 커리어 상담봇!")
 
         while True:
@@ -49,25 +25,5 @@ class Chat:
                 print("대화를 종료합니다.")
                 break
 
-            # 프롬포트 설정
-            default_prompt = ("system", "At first, Answer only syntax. And then add explanation.")
-
-            response = model.get_response(user_input)
-            G = AI_Model('gemini-pro', 0.7, "AIzaSyDtPYcEmBSCBmwJdiKHzcJZoLG2zL33KQE")
-            G.prepare()  
-            model = G.chat
-
-            Chat.save_chat_history(user_input, response)
-
-
 if __name__ == "__main__":
-    Chat.main()
-
-
-
-def add(a,b):
-    return (a+ b)
-
-a = 10
-b = 2
-add(a,b)
+    Chat.chatting()
