@@ -3,12 +3,14 @@ import crawler
 import vector_store
 import retriever
 import chat
-# import sql
-# import logger
+import os
+
+if "GOOGLE_API_KEY" not in os.environ:
+    os.environ["GOOGLE_API_KEY"] = "AIzaSyCA-bUfCd1Y5A9UDZkDUmsoGKvpnVa4Gmc"
 
 def main():
     # Gemini API 설정
-    gemini_client = gemini.GeminiClient("AIzaSyDs0DbM3ns9rM-KvXfEoVTAcwmlBNMYkc4")
+    gemini_client = gemini.GeminiClient("AIzaSyCA-bUfCd1Y5A9UDZkDUmsoGKvpnVa4Gmc")
 
     # KB 구축
     crawler_module = crawler.Crawler()
@@ -19,7 +21,7 @@ def main():
 
     # QA Engine 실행
     retriever_module = retriever.Retriever(vector_store_module)
-    chat_module = chat.Chat(gemini_client, retriever_module, sql.SQLClient())
+    chat_module = chat.Chat(gemini_client, retriever_module)
 
     while True:
         # 사용자 입력 받기
