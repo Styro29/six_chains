@@ -10,12 +10,6 @@ chat.py 구현할 기능
 import os
 import json
 from gemini import AI_Model
-from langchain_core.prompts import SystemMessagePromptTemplate, ChatPromptTemplate, MessagesPlaceholder
-from langchain_core.messages import HumanMessage, SystemMessage
-from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain_community.document_loaders import WebBaseLoader
-
-model = ChatGoogleGenerativeAI()
 
 # 대화 기록을 저장할 파일 경로
 CHAT_HISTORY_FILE = "chat_history.json"
@@ -26,20 +20,23 @@ class Chat:
         self.user_input = ""
         self.chat_history_file = chat_history_file
         self.chat_history = self.load_chat_history()
-        
+
+
     def load_chat_history(self):
         # 대화 기록 파일이 있는 경우, 파일에서 읽어옴
         if os.path.exists(self.chat_history_file): 
             return json.read_json(self.chat_history_file)
         else:
             return []
+        
+    
 
-    def save_chat_history(self, model, last_qna):
+    def save_chat_history(self, model):
         # 대화 기록을 파일에 저장
         with open(self.chat_history_file, 'a') as file:
-            file.writelines(str({'user' : self.user_input, 'chatbot' : model.get_response(default_prompt, user_input)}))
+            file.writelines(str({'user' : self.user_input, 'chatbot' : model.get_response(self.user_input)}))
 
-    def main(model, retriever):
+    def main(model):
 
         print("Welcome to 커리어 상담봇!")
 
@@ -56,8 +53,21 @@ class Chat:
             default_prompt = ("system", "At first, Answer only syntax. And then add explanation.")
 
             response = model.get_response(user_input)
+            G = AI_Model('gemini-pro', 0.7, "AIzaSyDtPYcEmBSCBmwJdiKHzcJZoLG2zL33KQE")
+            G.prepare()  
+            model = G.chat
+
             Chat.save_chat_history(user_input, response)
 
 
 if __name__ == "__main__":
     Chat.main()
+
+
+
+def add(a,b):
+    return (a+ b)
+
+a = 10
+b = 2
+add(a,b)
