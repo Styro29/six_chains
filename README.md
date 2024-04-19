@@ -5,7 +5,8 @@
 
 
 # 소프트웨어 기능 소개
-![Readme](https://github.com/Styro29/six_chains/assets/133292854/7dc8a0e8-c579-409e-b165-d4c17f483399)
+![Class diagram](https://github.com/Styro29/six_chains/assets/133292854/1ce8c041-7bef-416d-bf2a-96f6dc5a3544)
+
 
 
 # 모듈별 기능
