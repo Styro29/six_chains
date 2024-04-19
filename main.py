@@ -1,45 +1,47 @@
-import gemini
-import crawler
-import vector_store
-import retriever
-import chat
 import os
+from crawler_old import Crawler
+from vector_store import VectorStore
+from retrieve import Retriever
+from gemini import AI_Model
+from chain import Chain
 
 if "GOOGLE_API_KEY" not in os.environ:
     os.environ["GOOGLE_API_KEY"] = "AIzaSyCA-bUfCd1Y5A9UDZkDUmsoGKvpnVa4Gmc"
+api_key = "AIzaSyCA-bUfCd1Y5A9UDZkDUmsoGKvpnVa4Gmc"
 
 def main():
-    # Gemini API 설정
-    gemini_client = gemini.GeminiClient("AIzaSyCA-bUfCd1Y5A9UDZkDUmsoGKvpnVa4Gmc")
+    # 크롤링 실행
+    URL = Crawler()
+    crawled_data = URL.get_data_from_url()
 
-    # KB 구축
-    crawler_module = crawler.Crawler()
-    documents = crawler_module.crawl_data()  # 문서 데이터 수집 (예: arXiv PDF 다운로드)
+    # 스플릿 실행
+    vector_store = VectorStore()
+    splited_data = vector_store.text_split(crawled_data)
 
-    vector_store_module = vector_store.VectorStore()
-    vector_store_module.save_documents(documents)  # Vector DB에 문서 저장 (RAG 학습용)
+    # 임베드 실행
+    embeded_data = vector_store.embed_documents(splited_data)
 
-    # QA Engine 실행
-    retriever_module = retriever.Retriever(vector_store_module)
-    chat_module = chat.Chat(gemini_client, retriever_module)
+    # 임베드 데이터를 가공하여 retriever에 보냄
+    retr_creator = Retriever()
+    retriever = retr_creator.retrieve(embeded_data, 5)
 
+    # gemini 호출
+    gemini = AI_Model()
+
+    # 프롬프트 호출하고 체인 만들기
+    chain = Chain()
+    created_chain = chain.create_chain(gemini.chat_model, retriever)
+
+    # while 문으로 계속해서 질문할 수 있도록 구현
+    
     while True:
-        # 사용자 입력 받기
-        user_input = input("사용자 입력: ")
+        user_input = input('User: ')
+        if user_input == "quit":
+            break
+        chat_history = gemini.get_response(created_chain, user_input)
+        print(chat_history)
 
-        # LLM 답변 생성
-        system_prompt = chat_module.generate_system_prompt(user_input)
-        l_response = gemini_client.predict(system_prompt)
 
-        # Retrieve 결과와 함께 LLM 답변 조합
-        r_response = retriever_module.retrieve(user_input)
-        combined_response = chat_module.combine_responses(l_response, r_response)
-
-        # Chat History 유지
-        chat_module.update_chat_history(user_input, combined_response)
-
-        # 답변 출력
-        print(f"답변: {combined_response}")
 
 if __name__ == "__main__":
     main()
