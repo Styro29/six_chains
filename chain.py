@@ -9,10 +9,13 @@ class Chain:
         self.default_prompt = ChatPromptTemplate(
             input_variables = [ 'context', 'question' ],
             messages = [ HumanMessagePromptTemplate(prompt = PromptTemplate(input_variables = [ 'context', 'question'], \
-                                                                            template = "You are a data specialist for over 20 years. \
+                                                                            template = "You are a data specialist with over 20 years of experience helping people find their dream jobs. \
                                                                                 Please give advice as seniors to new employees who are thinking about their career path with data jobs. \
-                                                                                    It is especially important to present the direction of the problem")),
-                         SystemMessagePromptTemplate(prompt = PromptTemplate(template = "Enter your answer in the first line, followed by any additional explanation."))   # 오류 생기면 줄 삭제
+                                                                                you can recommend recruitment or give loadmap of specific jobs. \
+                                                                                    It is especially important to present the direction of the problem. \
+                                                                                        Based on the previous conversation(chat_history) and context data, \
+                                                                                            provide thoughtful and insightful advice about the user's career path in Korean. \
+                                                                                            \n Qustion: {question} \n Context: {context} \n Answer:"))
             ]
         )
     
