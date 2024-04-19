@@ -41,14 +41,13 @@ LangChain 라이브러리를 이용하여 ~를하는 소프트웨어입니다.
   
 ## [소프트웨어 기능 소개]
 
-1.text_split(self, data): 
+1. `text_split(self, data):` 
 >crawling한 data를 청크 단위로 split 합니다.
 
-Arguments:
 	`data`: 채용 공고를 crawling한 raw data입니다.
 	`return splits`: data를 chunk 단위로 분할한 문장입니다.
 
-2.embed_documents(self, splits):
+2. `embed_documents(self, splits):`
 >split한 텍스트 청크를 embedding합니다.
 
 	Arguments: 
