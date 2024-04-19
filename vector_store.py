@@ -1,18 +1,8 @@
-<<<<<<< HEAD
-from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain_google_genai.embeddings import GoogleGenerativeAIEmbeddings
-from langchain_core.messages import HumanMessage, SystemMessage
-from langchain_core.prompts import SystemMessagePromptTemplate, ChatPromptTemplate, MessagesPlaceholder
-from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_community.vectorstores import FAISS
 
-
-=======
 from langchain_google_genai.embeddings import GoogleGenerativeAIEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
 
->>>>>>> 9a3ed3c (last commit~!)
 class VectorStore:
 
     def __init__(self):
@@ -36,17 +26,5 @@ class VectorStore:
     def store(self, source): # 상위 두개의 함수를 진행하는 함수로, 크롤링한 원본 데이터를 분할하고 임베딩하여 벡터 저장소에 저장합니다.
         splits = self.text_split(source)
         self.vectorstore = self.embed_documents(splits)
-<<<<<<< HEAD
+
         return self.vectorstore
-
-
-# # Example usage
-
-# crawl = Crawler
-# source = crawl.get_data_from_url()
-# vector_store = VectorStore()
-# vectordb = vector_store.store(source)
-# print(vectordb.index_to_docstore_id)
-=======
-        return self.vectorstore
->>>>>>> 9a3ed3c (last commit~!)
