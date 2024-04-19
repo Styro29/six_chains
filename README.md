@@ -6,7 +6,7 @@
 
 
 
-	__기반 기술__
+	**기반 기술**
 	1.   text_split(self, data): 
 	crawling한 data를 청크 단위로 split 합니다.
 		Arguments: 
