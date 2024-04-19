@@ -1,4 +1,6 @@
 # six_chains
+![6-chains](https://github.com/Styro29/six_chains/assets/133292854/232724ea-af0a-4465-aa85-459e78e4f662)
+
 ## 이어드림 스쿨 4기 5팀의 LangChain 프로젝트입니다.
 - 참여자: 김아민, 김지연, 길기현, 박우열, 전성환, 한지원
 
