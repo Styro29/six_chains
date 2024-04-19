@@ -9,7 +9,10 @@ class AI_Model:
         self.chat_model = ChatGoogleGenerativeAI(model=self.model, temperature=self.temperature)    # Google Gemini API key 설정 후 ChatGoogleGenerativeAI instance 반환
 
     def get_response(self, chain, user_input):      # chain.py 모듈에서 받아온 chain과 user_input을 이용해 Gemini 모델의 답변을 리턴하는 함수
-        fin_user_input = "제가 궁금한 점은 다음과 같습니다." + user_input + "과거의 질의응답은 아래와 같으니, 참고하여 답변해주세요. 질문의 번호는 1번 부터 숫자가 커질 수록 최신 질문과 답변입니다. 가능한 숫자가 큰 질문과 답변을 기반으로 답변을 해주세요. \n" + self.chat_history       # chat_history에 저장된 내용을 불러와 user_input에 concat후 invoke
+        fin_user_input = "My questions are as follows." + user_input + \
+            "Q&A in the past is as follows, so please refer to it and answer it. \
+                The number of questions is the latest questions and answers as the number increases from number 1. \
+                    Please answer based on the questions and answers with the largest possible number. \n" + self.chat_history       # chat_history에 저장된 내용을 불러와 user_input에 concat후 invoke
 
         response = chain.invoke(fin_user_input)     # user_input과 chat_history를 결합한 fin_user_input을 가지고 invoke 수행 -> response 변수로 저장
 
