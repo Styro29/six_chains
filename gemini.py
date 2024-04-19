@@ -1,15 +1,12 @@
 from langchain_google_genai import ChatGoogleGenerativeAI
 
 class AI_Model:
-    def __init__(self, api_key, model = 'gemini-1.5-pro-latest', temperature = 0.7):   # AI_Model class의 객체 지정 시, model 종류, temperature, api_key를 attribute로 받음
+    def __init__(self, model = 'gemini-1.5-pro-latest', temperature = 0.7):   # AI_Model class의 객체 지정 시, model 종류, temperature, api_key를 attribute로 받음
         self.model = model      # Google Gemini: 'gemini-pro'
         self.temperature = temperature      # 기본값: 0.7
-        self.api_key = api_key      # API key(예시): "AIzaSyDtPYcEmBSCBmwJdiKHzcJZoLG2zL33KQE"
         self.chat_history = str("")     # 질의응답 내역을 저장하는 str 형식 변수
         self.last_question_no = 0       # 직전 질의응답의 순서를 저장하는 int 변수
-
-    def prepare(self):      # Google Gemini API key 설정 후 ChatGoogleGenerativeAI instance 반환
-        self.chat_model = ChatGoogleGenerativeAI(model=self.model, temperature=self.temperature)
+        self.chat_model = ChatGoogleGenerativeAI(model=self.model, temperature=self.temperature)    # Google Gemini API key 설정 후 ChatGoogleGenerativeAI instance 반환
 
     def get_response(self, chain, user_input):      # chain.py 모듈에서 받아온 chain과 user_input을 이용해 Gemini 모델의 답변을 리턴하는 함수
         fin_user_input = "제가 궁금한 점은 다음과 같습니다." + user_input + "과거의 질의응답은 아래와 같으니, 참고하여 답변해주세요. 질문의 번호는 1번 부터 숫자가 커질 수록 최신 질문과 답변입니다. 가능한 숫자가 큰 질문과 답변을 기반으로 답변을 해주세요. \n" + self.chat_history       # chat_history에 저장된 내용을 불러와 user_input에 concat후 invoke
