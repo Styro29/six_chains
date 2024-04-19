@@ -1,6 +1,5 @@
-# six_chains
-이어드림 스쿨 4기 5팀의 LangChain 프로젝트입니다.
 # yeardream_six_chains
+이어드림 스쿨 4기 5팀의 LangChain 프로젝트입니다.
 
 ## 이어드림 스쿨 4기 5팀의 LangChain 프로젝트
 - 멤버 : 김아민, 김지연, 길기현, 박우열, 전성환, 한지원
