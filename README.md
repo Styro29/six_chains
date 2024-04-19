@@ -33,7 +33,7 @@ Internal variables:
 - `self.last_question_no` (int) : *현재 사용자가 마지막으로 입력한 질문과 답변의 순서를 저장*
 - `self.chat_model` (obj) : *ChatGoogleGenerativeAI 인스턴스 객체*
 
-***`get_response(self, chain, user_input)`***<<br>
+***`get_response(self, chain, user_input)`:***<<br>
 Arguments:
 - `chain` (obj) :  *invoke를 수행할 생성된 chain*
 - `user_input` (str) : *사용자가 입력한 질문*
