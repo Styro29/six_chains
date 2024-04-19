@@ -1,7 +1,4 @@
-from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_google_genai.embeddings import GoogleGenerativeAIEmbeddings
-from langchain_core.messages import HumanMessage, SystemMessage
-from langchain_core.prompts import SystemMessagePromptTemplate, ChatPromptTemplate, MessagesPlaceholder
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
 
@@ -30,12 +27,3 @@ class VectorStore:
         splits = self.text_split(source)
         self.vectorstore = self.embed_documents(splits)
         return self.vectorstore
-
-
-# # Example usage
-
-# crawl = Crawler
-# source = crawl.get_data_from_url()
-# vector_store = VectorStore()
-# vectordb = vector_store.store(source)
-# print(vectordb.index_to_docstore_id)
