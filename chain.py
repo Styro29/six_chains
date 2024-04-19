@@ -22,7 +22,7 @@ class Chain:
     def format_docs(self, docs):
         return "\n\n".join(doc.page_content for doc in docs)
 
-    def create_chain(self, user_input, chat, retrieve):
+    def create_chain(self, chat, retrieve):
         chain = ({"context": retrieve | self.format_docs, "question" : RunnablePassthrough()}
                  | self.default_prompt
                  | chat
