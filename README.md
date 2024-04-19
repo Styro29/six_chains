@@ -31,7 +31,7 @@ Arguments:
 Internal variables:
 - `self.chat_history` (str) : *사용자의 질문(user_input)과 모델의 답변(response)을 저장*
 - `self.last_question_no` (int) : *현재 사용자가 마지막으로 입력한 질문과 답변의 순서를 저장*
-- `self.chat_model' (obj) : *ChatGoogleGenerativeAI 인스턴스 객체*
+- `self.chat_model` (obj) : *ChatGoogleGenerativeAI 인스턴스 객체*
 
 ***`get_response(self, chain, user_input)`***<<br>
 Arguments:
