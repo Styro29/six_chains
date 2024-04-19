@@ -3,6 +3,8 @@
 - 참여자: 김아민, 김지연, 길기현, 박우열, 전성환, 한지원
 
 ## [소프트웨어 기능 소개]
+![Readme](https://github.com/Styro29/six_chains/assets/133292854/7dc8a0e8-c579-409e-b165-d4c17f483399)
+
 
 ### main.py
 
